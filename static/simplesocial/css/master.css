@@ -1,0 +1,29 @@
+body{
+    margin: 0;
+    background: #282f31;
+    color: white;
+}
+
+.plus-sign{
+    margin-bottom: 40px;
+}
+
+.card h5{
+    color: #282f31;
+}
+
+.card .card-title{
+    color: #282f31;
+}
+
+card .card-text{
+    color: #282f31;
+}
+
+.card-body{
+    color: #282f31;
+}
+.card{
+    overflow: scroll;
+    max-height: 350px;
+}

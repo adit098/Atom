@@ -1,0 +1,31 @@
+.mycontent{
+    padding-top: 80px;
+    box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+  width: 100%;
+  /*background: #191063;*/
+  margin: 0;
+}
+
+
+#note {
+  position: absolute;
+  /*color: rgba(249,241,204,1);*/
+  left: 0;
+  right: 0;
+  bottom: 20px;
+  margin: auto;
+  text-align: center;
+  user-select: none;
+}
+
+.groups{
+  display: flex;
+  justify-content: space-between;
+  background-color: #1da1f2;
+  margin-bottom: 50px;
+}

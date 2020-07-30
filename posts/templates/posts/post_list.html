@@ -1,0 +1,63 @@
+{% extends "posts/post_base.html" %}
+{% load humanize %}
+
+{% block prepost %}
+<div class="groups">
+	{% if request.user.is_authenticated %}
+	<div class="card joined">
+		<div class="card-body">
+			<h5 class="card-title">Your Groups</h5>
+			<ul class="list-group list-group-flush">
+
+{#				{% for member_group in user.user_groups.all %}#}
+{#				<li class="list-group-item">#}
+{#					<a href="{% url 'groups:single' slug=member_group.group.slug %}">{{ member_group.group.name }}</a>#}
+{#				</li>#}
+{#                {% endfor %}#}
+
+                {% for user_group in user_groups %}
+                    <li class='list-group-item'><a href="{% url 'groups:single' slug=user_group.slug %}">{{user_group.name}}</a></li>
+                {% endfor %}
+
+			</ul>
+		</div>
+	</div>
+	{% endif %}
+	<div class="card all">
+		<div class="card-body">
+			<h5 class="card-title">All groups</h5>
+			<ul class="list-group list-group-flush">
+				{# {% get_other_groups as other_groups %} #}
+				{% for other_group in all_groups  %}
+					<li class="list-group-item"><a href="{% url 'groups:single' slug=other_group.slug %}">{{ other_group.name }}</a></li>
+				{% endfor %}
+			</ul>
+
+		</div>
+	</div>
+    <div class="card posted">
+		<div class="card-body">
+			<h5 class="card-title">Posted groups</h5>
+			<ul class="list-group list-group-flush">
+                {% for post in post_list  %}
+					<li class="list-group-item"><a href="{% url 'groups:single' slug=post.group.slug %}">{{ post.group.name }}</a></li>
+				{% endfor %}
+			</ul>
+		</div>
+	</div>
+</div>
+{% endblock %}
+
+
+{% block post_content %}
+<div class="row row-cols-1 row-cols-md-3">
+	{% for post in post_list %}
+  {% include "posts/_post.html" %}
+	{% endfor %}
+</div>
+{#    <div class="posts">#}
+{#	{% for post in post_list %}#}
+{#  {% include "posts/_post.html" %}#}
+{#	{% endfor %}#}
+{#</div>#}
+{% endblock %}

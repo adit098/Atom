@@ -1,0 +1,42 @@
+{% extends 'groups/group_base.html' %}
+
+{% block pregroup %}
+<div class="col-md-4">
+    <div class="content">
+        {% if user.is_authenticated %}
+            <h2>Welcome Back <a href="{% url 'posts:for_user' username=user.username %}">@{{user.username}}</a></h2>
+        {% endif %}
+        <h2>Groups</h2>
+        <p>Welcome to the Groups Page! Select a Group with a shared interest!</p>
+    </div>
+    {% if user.is_authenticated %}
+        <a href="{% url 'groups:create' %}" class="btn btn-warning plus-sign"><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-plus-square-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+			<path fill-rule="evenodd" d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm6.5 4a.5.5 0 0 0-1 0v3.5H4a.5.5 0 0 0 0 1h3.5V12a.5.5 0 0 0 1 0V8.5H12a.5.5 0 0 0 0-1H8.5V4z"/>
+		  </svg>Create New Group</a>
+    {% endif %}
+</div>
+{% endblock %}
+
+{% block group_content %}
+<div class="col-md-8">
+	<div class="list-group">
+		{% for group in object_list %}
+		  <a class="list-group" href="{% url 'groups:single' slug=group.slug %}" style="text-decoration: none;">  
+			<div class="list-group-item list-group-item-action list-group-item-light">
+				<h3 class="title">{{ group.name }}</h3>
+				{{ group.description_html|safe }}
+				<div class="row">
+					<div class="col-md-4">
+						<span class="badge badge-secondary">{{ group.members.count }}</span> member{{ group.members.count|pluralize }}
+					</div>
+					<div class="col-md-4">
+						<span class="badge badge-secondary">{{ group.posts.count }}</span> post{{ group.posts.count|pluralize }}
+					</div>
+				</div>
+			</div>
+		</a>
+		{% endfor %}
+	</div>
+</div>
+
+{% endblock  %}

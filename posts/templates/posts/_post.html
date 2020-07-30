@@ -1,0 +1,47 @@
+<div class="col mb-4">
+<div class="card h-100">
+    <div class="card-body">
+    <div class="card-title"><strong>{{ post.user.username }}</strong></div>
+        <div class="card-text">{{ post.message_html|safe }}</div>
+
+
+
+		<div class="card-footer">
+        <span class="username"><a href="{% url 'posts:for_user' username=post.user.username %}">@{{ post.user.username }}</a></span>
+			<time class="time"><a href="{% url 'posts:single' username=post.user.username pk=post.pk %}">{{ post.created_at }}</a></time>
+			{% if post.group %}
+			<span class="group-name">in <a href="{% url 'groups:single' slug=post.group.slug %}">{{ post.group.name }}</a></span>
+			{% endif %}
+			{% if user.is_authenticated and post.user == user and not hide_delete %}
+				<a href="{% url 'posts:delete' pk=post.pk %}" title="delete" class="btn btn-danger btn-sm">
+					<span class="remove"><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-trash-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5a.5.5 0 0 0-1 0v7a.5.5 0 0 0 1 0v-7z"/>
+                      </svg></span>
+					<span class="text-light icon-label">Delete</span>
+				</a>
+			{% endif %}
+		</div>
+	</div>
+</div>
+</div>
+
+{#    <div class="post-body">#}
+{#        <div class="post-title"><strong>{{ post.user.username }}</strong></div>#}
+{#            <div class="post-text">{{ post.message_html|safe }}</div>#}
+{#        <div class="post-footer">#}
+{#            <span class="username"><a href="{% url 'posts:for_user' username=post.user.username %}">@{{ post.user.username }}</a></span>#}
+{#			<time class="time"><a href="{% url 'posts:single' username=post.user.username pk=post.pk %}">{{ post.created_at }}</a></time>#}
+{#			{% if post.group %}#}
+{#			<span class="group-name">in <a href="{% url 'groups:single' slug=post.group.slug %}">{{ post.group.name }}</a></span>#}
+{#			{% endif %}#}
+{#			{% if user.is_authenticated and post.user == user and not hide_delete %}#}
+{#				<a href="{% url 'posts:delete' pk=post.pk %}" title="delete" class="btn btn-danger">#}
+{#					<span class="remove" aria-hidden="true"><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-trash-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">#}
+{#                        <path fill-rule="evenodd" d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5a.5.5 0 0 0-1 0v7a.5.5 0 0 0 1 0v-7z"></path>#}
+{#                      </svg></span>#}
+{#					<span class="text-danger icon-label">Delete</span>#}
+{#				</a>#}
+{#			{% endif %}#}
+{#        </div>#}
+{#    </div>#}
+
