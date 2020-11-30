@@ -1,0 +1,43 @@
+{% extends 'blog/base.html' %}}
+
+{% block content %}
+{% for post in post_list %}
+    <div class="post">
+    <div class="list-group mt-4" style="width: 40rem;">
+    <a href="{% url 'post_detail' pk=post.pk %}" class="list-group-item list-group-item-action list-group-item-danger">
+            <p class="date">created: {{ post.created_date|date:'d-m-Y' }}</p>
+            <h2><b>{{ post.title }}</b></h2>
+            {% autoescape off %}
+                    <h6>Description:</h6>
+                    <p>{{ post.text|truncatechars:200 }}</p>
+            {% endautoescape %}
+    </a>
+    </div>
+    </div>
+{% endfor %}
+
+    <nav aria-label="Page navigation example">
+    {% if is_paginated %}
+      <ul class="pagination justify-content-center">
+        {% if page_obj.has_previous %}
+          <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">&laquo;</a></li>
+        {% else %}
+          <li class="page-item disabled"><a class="page-link">&laquo;</a></li>
+        {% endif %}
+        {% for i in paginator.page_range %}
+          {% if page_obj.number == i %}
+            <li class="page-item active"><a class="page-link">{{ i }} <span class="sr-only">(current)</span></a></li>
+          {% else %}
+            <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+          {% endif %}
+        {% endfor %}
+        {% if page_obj.has_next %}
+          <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">&raquo;</a></li>
+        {% else %}
+          <li class="page-item disabled"><a class="page-link">&raquo;</a></li>
+        {% endif %}
+      </ul>
+    {% endif %}
+</nav>
+
+{% endblock %}
