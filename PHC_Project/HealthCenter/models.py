@@ -63,3 +63,41 @@ class Medicines(models.Model):
 
     def __str__(self):
         return self.name
+
+
+# The field on the related object that the relation is to. By default, Django uses the primary key of the related
+# object. If you reference a different field, that field must have unique=True.
+
+
+class PatientEntry(models.Model):
+    patient_no = models.AutoField(primary_key=True)
+    patient_id = models.ForeignKey(Beneficiary, to_field='Beneficiary_id', on_delete=models.CASCADE,
+                                   related_name='patient_id')
+    doctor_id = models.ForeignKey(Doctor, on_delete=models.CASCADE)
+    age = models.PositiveIntegerField(editable=False)
+    visit_date = models.DateTimeField(default=timezone.now, editable=False)
+
+    def save(self, *args, **kwargs):
+        self.age = date.today().year - self.patient_id.DOB.year
+        super().save(*args, **kwargs)
+
+    class Meta:
+        verbose_name_plural = 'Patients Entry Register'
+
+    def __str__(self):
+        return self.patient_id.Beneficiary_id + ' - ' + self.patient_id.name
+
+
+class Prescription(models.Model):
+    patient_no = models.ForeignKey(PatientEntry, on_delete=models.CASCADE)
+    medicine = models.ForeignKey(Medicines, on_delete=models.CASCADE, to_field="name")
+    quantity = models.PositiveIntegerField(default=2)
+
+    # If I am prescribing the medicines to a patient then that amount of particular medicine must be decreased in the stock.
+
+    def save(self, *args, **kwargs):
+        current = Medicines.objects.get(name=getattr(self.medicine, 'name'))
+        current.stock -= self.quantity
+        current.save()
+        super().save(*args, **kwargs)
+
