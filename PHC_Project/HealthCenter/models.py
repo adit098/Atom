@@ -1,4 +1,6 @@
 from django.db import models
+from datetime import datetime
+from django.utils import timezone
 
 
 class Doctor(models.Model):
@@ -51,3 +53,13 @@ class Beneficiary(models.Model):
         return self.Beneficiary_id + ' - ' + self.name
 
 
+class Medicines(models.Model):
+    name = models.CharField(max_length=75, primary_key=True, verbose_name="Medicine Name")
+    price = models.DecimalField(max_digits=8, decimal_places=2)
+    stock = models.PositiveIntegerField()
+
+    class Meta:
+        verbose_name_plural = 'Medicines Register'
+
+    def __str__(self):
+        return self.name
