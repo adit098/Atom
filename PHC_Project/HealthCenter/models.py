@@ -1,6 +1,8 @@
 from django.db import models
 from datetime import datetime
 from django.utils import timezone
+from django.db.models.signals import pre_delete
+from django.dispatch import receiver
 
 
 class Doctor(models.Model):
@@ -41,9 +43,6 @@ class Beneficiary(models.Model):
     address = models.CharField(max_length=100)
     city = models.CharField(max_length=25)
     pincode = models.CharField(max_length=6, default=123456)
-
-    def calculate_age(self):
-        return date.today().year - self.DOB.year
 
     class Meta:
         ordering = ["name"]
@@ -101,3 +100,11 @@ class Prescription(models.Model):
         current.save()
         super().save(*args, **kwargs)
 
+
+
+# update the medicines stock after deleting the prescribed medicines to a patient
+@receiver(pre_delete, sender=Prescription)
+def update_medicine_after_delete(sender, instance, using, **kwargs):
+    current = Medicines.objects.get(name=getattr(instance.medicine, 'name'))
+    current.stock += instance.quantity
+    current.save()
