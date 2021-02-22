@@ -1,3 +1,3 @@
 # Atom
-Django Projects
+All Django Projects
 
